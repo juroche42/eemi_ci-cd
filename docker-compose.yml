@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  # NGINX server
+  # Serveur NGINX
   nginx:
     container_name: nginx
     image: nginx:stable-alpine
@@ -15,7 +15,7 @@ services:
       - php
       - database
 
-  # PHP 8 scripting language
+  # Langage PHP 8
   php:
     container_name: php
     build:
@@ -27,7 +27,7 @@ services:
     depends_on:
       - database
 
-  # MySQL 8 datadase
+  # Base de données MySQL 8
   database:
     container_name: database
     image: mysql:8.0
