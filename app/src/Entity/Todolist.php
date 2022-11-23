@@ -18,7 +18,7 @@ class Todolist
 	#[ORM\Column(length: 255, unique: true)]
 	private ?string $name = null;
 
-	#[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'todolist', orphanRemoval: true)]
+	#[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'todolist', cascade: ["all"], fetch: 'EAGER', orphanRemoval: true)]
 	private Collection $tasks;
 
 	public function __construct()

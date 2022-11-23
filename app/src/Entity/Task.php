@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\TaskRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TaskRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -57,36 +58,36 @@ class Task
 		return $this;
 	}
 
-	public function getStartDate(): ?\DateTimeInterface
+	public function getStartDate(): ?DateTime
 	{
 		return $this->startDate;
 	}
 
-	public function setStartDate(?\DateTimeInterface $startDate): self
+	public function setStartDate(?DateTime $startDate): self
 	{
 		$this->startDate = $startDate;
 
 		return $this;
 	}
 
-	public function getEndDate(): ?\DateTimeInterface
+	public function getEndDate(): ?DateTime
 	{
 		return $this->endDate;
 	}
 
-	public function setEndDate(?\DateTimeInterface $endDate): self
+	public function setEndDate(?DateTime $endDate): self
 	{
 		$this->endDate = $endDate;
 
 		return $this;
 	}
 
-	public function getDueDate(): ?\DateTimeInterface
+	public function getDueDate(): ?DateTime
 	{
 		return $this->dueDate;
 	}
 
-	public function setDueDate(?\DateTimeInterface $dueDate): self
+	public function setDueDate(?DateTime $dueDate): self
 	{
 		$this->dueDate = $dueDate;
 
