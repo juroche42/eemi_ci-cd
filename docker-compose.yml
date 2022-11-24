@@ -23,7 +23,7 @@ services:
     ports:
       - '9000:9000'
     volumes:
-      - ./app:/var/www/symfony_docker
+      - ./app:/var/www/symfony_docker:cached
     depends_on:
       - database
 
@@ -51,6 +51,6 @@ services:
     environment:
       PMA_HOST: database
       PMA_PORT: 3306
-      PMA_USER: symfony
-      PMA_PASSWORD: symfony
+      PMA_USER: root
+      PMA_PASSWORD: secret
     restart: always
