@@ -3,13 +3,24 @@
 namespace App\Entity;
 
 use DateTime;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TaskRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
+#[ApiResource(operations: [
+	new Get(
+		controller: NotFoundAction::class,
+		read: false,
+		output: false,
+		openapi: false
+	),
+])]
 class Task
 {
 	#[ORM\Id]
@@ -18,19 +29,22 @@ class Task
 	private ?int $id = null;
 
 	#[ORM\Column(length: 255)]
+	#[Assert\NotBlank]
+	#[Assert\Length(max: 255)]
 	private ?string $title = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-	private ?\DateTimeInterface $startDate = null;
+	private ?DateTime $startDate = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-	private ?\DateTimeInterface $endDate = null;
+	private ?DateTime $endDate = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-	private ?\DateTimeInterface $dueDate = null;
+	private ?DateTime $dueDate = null;
 
 	#[ORM\ManyToOne(inversedBy: 'tasks')]
 	#[ORM\JoinColumn(nullable: false)]
+	#[Assert\NotNull]
 	private ?Todolist $todolist = null;
 
 	#[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'tasks')]

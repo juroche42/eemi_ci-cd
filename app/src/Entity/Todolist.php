@@ -2,12 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\TodolistRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TodolistRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TodolistRepository::class)]
+#[ApiResource(operations: [
+	new Get(),
+])]
 class Todolist
 {
 	#[ORM\Id]
@@ -16,9 +22,11 @@ class Todolist
 	private ?int $id = null;
 
 	#[ORM\Column(length: 255, unique: true)]
+	#[Assert\NotBlank]
+	#[Assert\Length(max: 255)]
 	private ?string $name = null;
 
-	#[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'todolist', cascade: ["all"], fetch: 'EAGER', orphanRemoval: true)]
+	#[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'todolist', cascade: ["all"], orphanRemoval: true)]
 	private Collection $tasks;
 
 	public function __construct()

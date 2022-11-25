@@ -2,12 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\TagRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TagRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
+#[ApiResource(operations: [
+	new Get(
+		controller: NotFoundAction::class,
+		read: false,
+		output: false,
+		openapi: false
+	),
+])]
 class Tag
 {
 	#[ORM\Id]
@@ -16,6 +27,8 @@ class Tag
 	private ?int $id = null;
 
 	#[ORM\Column(length: 255, unique: true)]
+	#[Assert\NotBlank]
+	#[Assert\Length(max: 255)]
 	private ?string $name = null;
 
 	#[ORM\Column(length: 255, nullable: true)]
