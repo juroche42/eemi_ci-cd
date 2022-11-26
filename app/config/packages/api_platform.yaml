@@ -1,11 +1,24 @@
 api_platform:
+  title: 'Todolist API'
+  description: 'This API allows you to create todo lists that contain taggable tasks.'
+  version: '1.0.0'
+  show_webby: false
+  metadata_backward_compatibility_layer: false
+
   mapping:
     paths: ['%kernel.project_dir%/src/Entity']
-  metadata_backward_compatibility_layer: false
-  patch_formats:
-    json: ['application/merge-patch+json']
+
   swagger:
     versions: [3]
-  show_webby: false
+    # swagger_ui_extra_configuration:
+      # defaultModelsExpandDepth: -1
+  formats:
+    json: ["application/json"]
+    html: ['text/html']
+
+  patch_formats:
+    json: ["application/merge-patch+json"]
+
   defaults:
     pagination_enabled: false
+    iri: 'http://localhost:8080'
