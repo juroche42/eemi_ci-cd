@@ -10,36 +10,40 @@ use App\Repository\TaskRepository;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
-#[ApiResource(operations: [
-	new Get(
-		controller: NotFoundAction::class,
-		read: false,
-		output: false,
-		openapi: false
-	),
-])]
+#[ApiResource(
+	operations: [
+		new Get(),
+	],
+	normalizationContext: ['groups' => ['task:read:one']],
+)]
 class Task
 {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column]
+	#[Groups(['todolist:read:one', 'task:read:one'])]
 	private ?int $id = null;
 
 	#[ORM\Column(length: 255)]
 	#[Assert\NotBlank]
 	#[Assert\Length(max: 255)]
+	#[Groups(['todolist:read:one', 'task:read:one'])]
 	private ?string $title = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+	#[Groups(['todolist:read:one', 'task:read:one'])]
 	private ?DateTime $startDate = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+	#[Groups(['todolist:read:one', 'task:read:one'])]
 	private ?DateTime $endDate = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+	#[Groups(['todolist:read:one', 'task:read:one'])]
 	private ?DateTime $dueDate = null;
 
 	#[ORM\ManyToOne(inversedBy: 'tasks')]
@@ -48,6 +52,7 @@ class Task
 	private ?Todolist $todolist = null;
 
 	#[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'tasks')]
+	#[Groups(['todolist:read:one', 'task:read:one'])]
 	private Collection $tags;
 
 	public function __construct()

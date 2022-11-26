@@ -8,30 +8,36 @@ use App\Repository\TagRepository;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
-#[ApiResource(operations: [
-	new Get(
-		controller: NotFoundAction::class,
-		read: false,
-		output: false,
-		openapi: false
-	),
-])]
+#[ApiResource(
+	operations: [
+		new Get(
+			controller: NotFoundAction::class,
+			read: false,
+			output: false,
+			openapi: false
+		),
+	]
+)]
 class Tag
 {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column]
+	#[Groups(['todolist:read:one', 'task:read:one'])]
 	private ?int $id = null;
 
 	#[ORM\Column(length: 255, unique: true)]
 	#[Assert\NotBlank]
 	#[Assert\Length(max: 255)]
+	#[Groups(['todolist:read:one', 'task:read:one'])]
 	private ?string $name = null;
 
-	#[ORM\Column(length: 255, nullable: true)]
+	#[ORM\Column(length: 255)]
+	#[Groups(['todolist:read:one', 'task:read:one'])]
 	private ?string $color = null;
 
 	#[ORM\ManyToMany(targetEntity: Task::class, inversedBy: 'tags')]

@@ -3,30 +3,40 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\TodolistRepository;
 use Doctrine\Common\Collections\Collection;
-use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TodolistRepository::class)]
-#[ApiResource(operations: [
-	new Get(),
-])]
+#[ApiResource(
+	operations: [
+		new Get(),
+		new Post(),
+	],
+	normalizationContext: ['groups' => ['todolist:read:one']],
+	denormalizationContext: ['groups' => ['todolist:create']],
+)]
 class Todolist
 {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column]
+	#[Groups(['todolist:read:one'])]
 	private ?int $id = null;
 
 	#[ORM\Column(length: 255, unique: true)]
 	#[Assert\NotBlank]
 	#[Assert\Length(max: 255)]
+	#[Groups(['todolist:read:one', 'todolist:create'])]
 	private ?string $name = null;
 
-	#[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'todolist', cascade: ["all"], orphanRemoval: true)]
+	#[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'todolist', cascade: ["all"], orphanRemoval: true, fetch: "EAGER")]
+	#[Groups(['todolist:read:one'])]
 	private Collection $tasks;
 
 	public function __construct()
