@@ -9,16 +9,16 @@
 
 ## Cahier des charges
 
-- [x] Création de **3 entités** : Todolist, Task et Tag.
-- [ ] Création de **6 endpoints** pour :
+- [x] **Création de 3 entités : Todolist, Task et Tag.**
+- [ ] **Création de 6 endpoints pour :**
    - [x] Lire une Todolist avec ses Tasks et leurs Tags.
    - [x] Créer une Todolist (sans ses associations car celles-ci seront gérées à la création d'une Task).
    - [ ] Créer une Task et ses Tags.
    - [ ] Modifier une Task et ses Tags.
    - [x] Lire toutes les Tasks associées à un Tag donné (ou plusieurs).
    - [x] Lire toutes les Tasks expirées.
-- [ ] Protection de l'API avec l'**authentification** HTTP Basic.
-- [x] Garantie de la **qualité** du code et d'une **maintenance aisée** :
+- [ ] **Protection de l'API avec l'authentification HTTP Basic.**
+- [x] **Garantie de la qualité du code et d'une maintenance aisée :**
    - [x] Utilisation de docker-compose pour disposer d'un environnement local bien défini (containers = NGINX, PHP, MySQL, phpMyAdmin).
    - [x] Utilisation d'un framework (Symfony) et d'un bundle REST API (API Platform) pour bénéficier d'une base robuste, réduire le temps de développement, et simplifier le travail collaboratif.
    - [x] Utilisation des dernières versions des principaux composants (PHP 8, MySQL 8, Symfony 6, API Platform 2.7) pour bénéficier des dernières optimisations.
