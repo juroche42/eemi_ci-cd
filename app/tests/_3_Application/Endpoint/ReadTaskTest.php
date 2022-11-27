@@ -2,6 +2,7 @@
 
 namespace App\Tests\_3_Application\Endpoint;
 
+use DateTime;
 use App\Tests\_3_Application\Endpoint\AbstractEndpointTest;
 
 class ReadTaskTest extends AbstractEndpointTest
@@ -47,6 +48,25 @@ class ReadTaskTest extends AbstractEndpointTest
 	{
 		$this->iri .= '?tags.name%5B%5D=NotAValidTag';
 		$this->test_read_all_by_invalid_tag();
+	}
+
+	public function test_read_all_expired_tasks(): void
+	{
+		$this->iri .= '?isExpired=true';
+
+		$this->makeRequest('GET');
+
+		$this->assertResponseStatusCodeSame(200);
+		$this->assertNotEmpty($this->responseContent);
+
+		$today = (new DateTime())->format('Y-m-d');
+
+		/** @var array $task */
+		foreach ($this->responseContent as $task)
+		{
+			$this->assertArrayHasKey('dueDate', $task);
+			$this->assertTrue((new DateTime($task['dueDate']))->format('Y-m-d') < $today);
+		}
 	}
 
 	/* ***************************************************** *\

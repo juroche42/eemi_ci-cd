@@ -5,10 +5,8 @@ namespace App\Command;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -18,55 +16,34 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class ReloadFixturesCommand extends Command
 {
-	protected function configure(): void
-	{
-		$this->addArgument('env', InputArgument::REQUIRED, 'Environment (dev or test)');
-	}
+	private Application $app;
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$sstyle = new SymfonyStyle($input, $output);
-		$env = $input->getArgument('env');
 
-		$sstyle->title('Initialisation');
-
-		/** @var Application $application */
-		$application = $this->getApplication();
-		$application->setAutoExit(false);
+		$this->app = $this->getApplication();
+		$this->app->setAutoExit(false);
 
 		$sstyle->title('Dropping the database');
 
-		$application->run(new ArrayInput([
-			'command' => 'doctrine:database:drop',
-			"--env" => $env,
-			"--if-exists" => true,
-			"--force" => true
-		]));
+		$this->exec('doctrine:database:drop', ["--if-exists" => true, "--force" => true]);
 
 		$sstyle->title('Recreating the database');
 
-		$application->run(new ArrayInput([
-			'command' => 'doctrine:database:create',
-			"--env" => $env,
-			"--if-not-exists" => true
-		]));
-		$application->run(new ArrayInput([
-			'command' => 'doctrine:migrations:sync-metadata-storage',
-			"--env" => $env
-		]));
-		$application->run(new ArrayInput([
-			'command' => 'doctrine:migrations:migrate',
-			"--env" => $env,
-		]));
+		$this->exec('doctrine:database:create', ["--if-not-exists" => true]);
+		$this->exec('doctrine:migrations:sync-metadata-storage');
+		$this->exec('doctrine:migrations:migrate');
 
 		$sstyle->title('Loading the fixtures');
 
-		$application->run(new ArrayInput([
-			'command' => 'doctrine:fixtures:load',
-			"--env" => $env,
-			"--no-interaction" => true
-		]));
+		$this->exec('doctrine:fixtures:load', ["--no-interaction" => true]);
 
 		return Command::SUCCESS;
+	}
+
+	private function exec(string $command, array $flags = []): void
+	{
+		$this->app->run(new ArrayInput(['command' => $command, ...$flags]));
 	}
 }

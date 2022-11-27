@@ -5,14 +5,15 @@ namespace App\Entity;
 use DateTime;
 use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
+use App\Filter\TaskExpirationFilter;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TaskRepository;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\GetCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,6 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 	normalizationContext: ['groups' => ['task:read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['tags' => 'exact', 'tags.name' => 'exact'])]
+#[ApiFilter(TaskExpirationFilter::class)]
 class Task
 {
 	#[ORM\Id]

@@ -104,10 +104,27 @@ class AppFixtures extends Fixture
 			}
 		}
 
-		/** @var Task $firstTask */
-		$firstTask = $todolists[0]->getTasks()[0];
-		$firstTask->setStartDate((new DateTime())->modify('-2 days'));
-		$firstTask->setEndDate(new DateTime());
+		/**
+		 * Set one Task as started and done.
+		 * @var Task $taskDone
+		 */
+		$taskDone = $todolists[0]->getTasks()[0];
+		$taskDone->setStartDate((new DateTime())->modify('-2 days'));
+		$taskDone->setEndDate(new DateTime());
+
+		/**
+		 * Set one Task as started and in progress.
+		 * @var Task $taskInProgress
+		 */
+		$taskInProgress = $todolists[1]->getTasks()[1];
+		$taskInProgress->setStartDate((new DateTime())->modify('-2 days'));
+
+		/**
+		 * Set one Task as expired.
+		 * @var Task $taskExpired;
+		 */
+		$taskExpired = $todolists[2]->getTasks()[2];
+		$taskExpired->setDueDate((new DateTime())->modify('-2 days'));
 
 		return $todolists;
 	}
