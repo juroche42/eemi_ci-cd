@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TagRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Action\NotFoundAction;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;

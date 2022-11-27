@@ -104,8 +104,10 @@ class AppFixtures extends Fixture
 			}
 		}
 
-		$todolists[0]->getTasks()[0]->setStartDate((new DateTime())->modify('-2 days'));
-		$todolists[0]->getTasks()[0]->setEndDate(new DateTime());
+		/** @var Task $firstTask */
+		$firstTask = $todolists[0]->getTasks()[0];
+		$firstTask->setStartDate((new DateTime())->modify('-2 days'));
+		$firstTask->setEndDate(new DateTime());
 
 		return $todolists;
 	}

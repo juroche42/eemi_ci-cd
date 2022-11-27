@@ -11,7 +11,7 @@ class InfoController extends AbstractController
 	/**
 	 * @Route("/phpinfo", name="phpinfo")
 	 */
-	public function phpinfoAction()
+	public function phpinfoAction(): Response
 	{
 		return new Response('<html><body>' . phpinfo() . '</body></html>');
 	}

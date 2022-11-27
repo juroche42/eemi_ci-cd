@@ -19,6 +19,7 @@ abstract class AbstractEntityTest extends KernelTestCase
 
 	private function assertViolationsIs(bool $expectedHasViolations, mixed $entity): void
 	{
+		/** @var ValidatorInterface $validator */
 		$validator = self::getContainer()->get(ValidatorInterface::class);
 		$violations = $validator->validate($entity);
 		$hasViolations = (count($violations) >= 1);

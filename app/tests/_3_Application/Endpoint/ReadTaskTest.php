@@ -25,7 +25,7 @@ class ReadTaskTest extends AbstractEndpointTest
 
 	public function test_read_all_with_a_valid_id_and_valid_tag_id_filter(): void
 	{
-		$validTagId = 6;
+		$validTagId = '6';
 		$this->iri .= '?tags%5B%5D=' . $validTagId;
 		$this->test_read_all_by_valid_tag('id', $validTagId);
 	}
@@ -33,7 +33,7 @@ class ReadTaskTest extends AbstractEndpointTest
 	public function test_read_all_with_a_valid_id_and_valid_tag_name_filter(): void
 	{
 		$validTagName = 'Urgent';
-		$this->iri .= '?tags.name%5B%5D=' . $validTagName;;
+		$this->iri .= '?tags.name%5B%5D=' . $validTagName;
 		$this->test_read_all_by_valid_tag('name', $validTagName);
 	}
 
@@ -60,7 +60,7 @@ class ReadTaskTest extends AbstractEndpointTest
 		$this->assertResponseStatusCodeSame(200);
 		$this->assertNotEmpty($this->responseContent);
 
-		/** @var Task $task */
+		/** @var array[] $task */
 		foreach ($this->responseContent as $task)
 		{
 			$this->assertNotEmpty($task['tags']);

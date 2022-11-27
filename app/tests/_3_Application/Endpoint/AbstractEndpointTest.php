@@ -2,6 +2,7 @@
 
 namespace App\Tests\_3_Application\Endpoint;
 
+use Exception;
 use Faker\Factory;
 use Faker\Generator;
 use ApiPlatform\Symfony\Bundle\Test\Client;
@@ -10,11 +11,12 @@ use Symfony\Component\HttpClient\Exception\ClientException;
 
 abstract class AbstractEndpointTest extends ApiTestCase
 {
-	protected ?Generator $faker = null;
-	protected ?string $iri = null;
-	protected ?array $validPayload = null;
-	protected ?Client $client = null;
-	protected ?array $responseContent = null;
+	protected Generator $faker;
+	protected string $iri;
+	protected array $validPayload;
+	protected array $invalidPayload;
+	protected Client $client;
+	protected array $responseContent;
 
 	/* ********************************************************** *\
 		Common setup
@@ -26,14 +28,6 @@ abstract class AbstractEndpointTest extends ApiTestCase
 
 		$this->client = static::createClient();
 		$this->faker = Factory::create();
-	}
-
-	protected function tearDown(): void
-	{
-		$this->iri = null;
-		$this->validPayload = null;
-
-		parent::tearDown();
 	}
 
 	/* ********************************************************** *\
@@ -96,7 +90,9 @@ abstract class AbstractEndpointTest extends ApiTestCase
 			$options['json'] = $payload;
 
 		$clientResponse = $this->client->request($method, $this->iri, $options);
-		$this->responseContent = json_decode($clientResponse->getContent(), true);
+		if (!is_array($responseArray = json_decode($clientResponse->getContent(), true)))
+			throw new Exception('json_decode failed.');
+		$this->responseContent = $responseArray;
 
 		$this->assertResponseHeaderSame('content-type', 'application/json; charset=utf-8');
 	}
