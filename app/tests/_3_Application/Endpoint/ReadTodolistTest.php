@@ -13,13 +13,13 @@ class ReadTodolistTest extends AbstractEndpointTest
 		$this->iri = '/api/todolists';
 	}
 
-	public function test_read_with_a_valid_id(): void
+	public function test_read_one_with_a_valid_id(): void
 	{
-		parent::test_read_with_a_valid_id();
+		parent::test_read_one_with_a_valid_id();
 	}
 
-	public function test_read_with_an_invalid_id(): void
+	public function test_read_one_with_an_invalid_id(): void
 	{
-		parent::test_read_with_an_invalid_id();
+		parent::test_read_one_with_an_invalid_id();
 	}
 }

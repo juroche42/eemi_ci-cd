@@ -23,8 +23,8 @@ class CreateTodolistTest extends AbstractEndpointTest
 	{
 		parent::test_create_with_a_valid_payload();
 
-		$this->assertObjectHasAttribute('name', $this->responseContent);
-		$this->assertSame($this->responseContent->name, $this->validPayload['name']);
+		$this->assertArrayHasKey('name', $this->responseContent);
+		$this->assertSame($this->responseContent['name'], $this->validPayload['name']);
 	}
 
 	public function test_create_with_an_invalid_payload(): void

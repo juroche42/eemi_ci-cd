@@ -7,9 +7,12 @@ use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TaskRepository;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\GetCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,33 +20,35 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
 	operations: [
 		new Get(),
+		new GetCollection(),
 	],
-	normalizationContext: ['groups' => ['task:read:one']],
+	normalizationContext: ['groups' => ['task:read']],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['tags' => 'exact', 'tags.name' => 'exact'])]
 class Task
 {
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column]
-	#[Groups(['todolist:read:one', 'task:read:one'])]
+	#[Groups(['todolist:read:one', 'task:read'])]
 	private ?int $id = null;
 
 	#[ORM\Column(length: 255)]
 	#[Assert\NotBlank]
 	#[Assert\Length(max: 255)]
-	#[Groups(['todolist:read:one', 'task:read:one'])]
+	#[Groups(['todolist:read:one', 'task:read'])]
 	private ?string $title = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-	#[Groups(['todolist:read:one', 'task:read:one'])]
+	#[Groups(['todolist:read:one', 'task:read'])]
 	private ?DateTime $startDate = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-	#[Groups(['todolist:read:one', 'task:read:one'])]
+	#[Groups(['todolist:read:one', 'task:read'])]
 	private ?DateTime $endDate = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-	#[Groups(['todolist:read:one', 'task:read:one'])]
+	#[Groups(['todolist:read:one', 'task:read'])]
 	private ?DateTime $dueDate = null;
 
 	#[ORM\ManyToOne(inversedBy: 'tasks')]
@@ -52,7 +57,7 @@ class Task
 	private ?Todolist $todolist = null;
 
 	#[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'tasks')]
-	#[Groups(['todolist:read:one', 'task:read:one'])]
+	#[Groups(['todolist:read:one', 'task:read'])]
 	private Collection $tags;
 
 	public function __construct()

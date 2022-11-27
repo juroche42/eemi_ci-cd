@@ -2,7 +2,6 @@
 
 namespace App\Tests\_3_Application\Endpoint;
 
-use stdClass;
 use Faker\Factory;
 use Faker\Generator;
 use ApiPlatform\Symfony\Bundle\Test\Client;
@@ -11,11 +10,11 @@ use Symfony\Component\HttpClient\Exception\ClientException;
 
 abstract class AbstractEndpointTest extends ApiTestCase
 {
-	protected Generator $faker;
+	protected ?Generator $faker = null;
 	protected ?string $iri = null;
 	protected ?array $validPayload = null;
-	protected Client $client;
-	protected stdClass $responseContent;
+	protected ?Client $client = null;
+	protected ?array $responseContent = null;
 
 	/* ********************************************************** *\
 		Common setup
@@ -48,7 +47,7 @@ abstract class AbstractEndpointTest extends ApiTestCase
 		$this->makeRequest('POST', $this->validPayload);
 
 		$this->assertResponseStatusCodeSame(201);
-		$this->assertObjectHasAttribute('id', $this->responseContent);
+		$this->assertArrayHasKey('id', $this->responseContent);
 	}
 
 	protected function test_create_with_an_invalid_payload(): void
@@ -61,18 +60,18 @@ abstract class AbstractEndpointTest extends ApiTestCase
 
 	// --------- Read ---------
 
-	protected function test_read_with_a_valid_id(): void
+	protected function test_read_one_with_a_valid_id(): void
 	{
 		$this->iri .= '/1';
 
 		$this->makeRequest('GET');
 
 		$this->assertResponseStatusCodeSame(200);
-		$this->assertObjectHasAttribute('id', $this->responseContent);
-		$this->assertSame($this->responseContent->id, 1);
+		$this->assertArrayHasKey('id', $this->responseContent);
+		$this->assertSame($this->responseContent['id'], 1);
 	}
 
-	protected function test_read_with_an_invalid_id(): void
+	protected function test_read_one_with_an_invalid_id(): void
 	{
 		$this->iri .= '/0';
 
@@ -83,10 +82,10 @@ abstract class AbstractEndpointTest extends ApiTestCase
 	}
 
 	/* ********************************************************** *\
-		Support methods
+		Generic request
 	\* ********************************************************** */
 
-	private function makeRequest(string $method, ?array $payload = null): void
+	protected function makeRequest(string $method, ?array $payload = null): void
 	{
 		$options['headers']['accept'] = 'application/json';
 
@@ -96,8 +95,8 @@ abstract class AbstractEndpointTest extends ApiTestCase
 		if ($payload !== null)
 			$options['json'] = $payload;
 
-		$this->clientResponse = $this->client->request($method, $this->iri, $options);
-		$this->responseContent = json_decode($this->clientResponse->getContent());
+		$clientResponse = $this->client->request($method, $this->iri, $options);
+		$this->responseContent = json_decode($clientResponse->getContent(), true);
 
 		$this->assertResponseHeaderSame('content-type', 'application/json; charset=utf-8');
 	}
