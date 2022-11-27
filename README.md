@@ -22,7 +22,7 @@
    - [x] Utilisation de docker-compose pour disposer d'un environnement local bien défini (containers = NGINX, PHP, MySQL, phpMyAdmin).
    - [x] Utilisation d'un framework (Symfony) et d'un bundle REST API (API Platform) pour bénéficier d'une base robuste, réduire le temps de développement, et simplifier le travail collaboratif.
    - [x] Utilisation des dernières versions des principaux composants (PHP 8, MySQL 8, Symfony 6, API Platform 2.7) pour bénéficier des dernières optimisations.
-	 - [x] Implémentation d'une batterie de tests (Unit & Application) avec [PHPUnit](https://symfony.com/doc/current/testing.html) (au moins 2 tests -1 valide et 1 invalide- par entité et par endpoint).
+   - [x] Implémentation d'une batterie de tests (Unit & Application) avec [PHPUnit](https://symfony.com/doc/current/testing.html) (au moins 2 tests -1 valide et 1 invalide- par entité et par endpoint).
    - [x] Implémentation des DataFixtures pour auto-générer les données de test (avec [FakerPHP](https://fakerphp.github.io/) et une Command custom pour que la régénération des données reparte toujours de l'ID n°1).
    - [x] Création d'un script permettant d'effectuer la "Static Analysis" du code (avec [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) et [PHPStan](https://github.com/phpstan/phpstan), configurés pour le standard [PSR-12](https://www.php-fig.org/psr/psr-12/) et le [style Allman](https://fr.wikipedia.org/wiki/Style_d%27indentation#Style_Allman)).
    - [x] Rédaction d'un [Wiki](https://github.com/cbrichau/todolist-symfony6/wiki) pour une prise en main plus aisée.
