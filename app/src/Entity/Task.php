@@ -14,8 +14,9 @@ use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use App\Controller\CreateTaskController;
+use App\Controller\CreateUpdateTaskController;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,11 +26,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 		new Get(),
 		new GetCollection(),
 		new Post(
-			controller: CreateTaskController::class
+			controller: CreateUpdateTaskController::class
+		),
+		new Patch(
+			controller: CreateUpdateTaskController::class,
 		),
 	],
 	normalizationContext: ['groups' => ['task:read']],
-	denormalizationContext: ['groups' => ['task:create']],
+	denormalizationContext: ['groups' => ['task:write']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['tags' => 'exact', 'tags.name' => 'exact'])]
 #[ApiFilter(TaskExpirationFilter::class)]
@@ -44,29 +48,29 @@ class Task
 	#[ORM\Column(length: 255)]
 	#[Assert\NotBlank]
 	#[Assert\Length(max: 255)]
-	#[Groups(['todolist:read:one', 'task:read', 'task:create'])]
+	#[Groups(['todolist:read:one', 'task:read', 'task:write'])]
 	private ?string $title = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-	#[Groups(['todolist:read:one', 'task:read', 'task:create'])]
+	#[Groups(['todolist:read:one', 'task:read', 'task:write'])]
 	private ?DateTime $startDate = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-	#[Groups(['todolist:read:one', 'task:read', 'task:create'])]
+	#[Groups(['todolist:read:one', 'task:read', 'task:write'])]
 	private ?DateTime $endDate = null;
 
 	#[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-	#[Groups(['todolist:read:one', 'task:read', 'task:create'])]
+	#[Groups(['todolist:read:one', 'task:read', 'task:write'])]
 	private ?DateTime $dueDate = null;
 
 	#[ORM\ManyToOne(inversedBy: 'tasks')]
 	#[ORM\JoinColumn(nullable: false)]
 	#[Assert\NotNull]
-	#[Groups(['task:create'])]
+	#[Groups(['task:write'])]
 	private ?Todolist $todolist = null;
 
 	#[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'tasks', cascade: ["all"])]
-	#[Groups(['todolist:read:one', 'task:read', 'task:create'])]
+	#[Groups(['todolist:read:one', 'task:read', 'task:write'])]
 	private Collection $tags;
 
 	public function __construct()

@@ -8,6 +8,7 @@ use Faker\Generator;
 use ApiPlatform\Symfony\Bundle\Test\Client;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use Symfony\Component\HttpClient\Exception\ClientException;
+use Symfony\Component\HttpClient\Exception\ServerException;
 
 abstract class AbstractApiTest extends ApiTestCase
 {
@@ -74,6 +75,25 @@ abstract class AbstractApiTest extends ApiTestCase
 		$this->assertResponseStatusCodeSame(404);
 	}
 
+	// --------- Update ---------
+
+	protected function test_update_with_a_valid_payload(): void
+	{
+		$this->makeRequest('PATCH', $this->validPayload);
+
+		$this->assertResponseStatusCodeSame(200);
+		$this->assertArrayHasKey('id', $this->responseContent);
+	}
+
+	protected function test_update_with_an_invalid_payload(): void
+	{
+		$this->expectException(ServerException::class);
+
+		$this->makeRequest('PATCH', $this->invalidPayload);
+
+		$this->assertResponseStatusCodeSame(400);
+	}
+
 	/* ********************************************************** *\
 		Generic request
 	\* ********************************************************** */
@@ -84,6 +104,8 @@ abstract class AbstractApiTest extends ApiTestCase
 
 		if ($method === 'POST')
 			$options['headers']['content-type'] = 'application/json';
+		elseif ($method === 'PATCH')
+			$options['headers']['content-type'] = 'application/merge-patch+json';
 
 		if ($payload !== null)
 			$options['json'] = $payload;
