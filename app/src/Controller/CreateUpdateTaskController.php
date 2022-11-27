@@ -48,7 +48,7 @@ class CreateUpdateTaskController extends AbstractController
 		if (!$this->task->getTodolist())
 			throw new Exception('Todolist is mandatory');
 
-		if ($this->task->getTags())
+		if (!$this->task->getTags()->isEmpty())
 			foreach ($this->task->getTags() as $tag)
 				if ($tag->getId() === null)
 				{

@@ -35,6 +35,9 @@ class Todolist
 	#[Groups(['todolist:read:one', 'todolist:create'])]
 	private ?string $name = null;
 
+	/**
+	 * @var Collection<int, Task> $tasks
+	 */
 	#[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'todolist', cascade: ["all"], orphanRemoval: true)]
 	#[Groups(['todolist:read:one'])]
 	private Collection $tasks;

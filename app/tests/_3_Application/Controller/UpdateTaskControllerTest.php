@@ -39,7 +39,7 @@ class UpdateTaskControllerTest extends AbstractApiTest
 
 		$this->assertArrayHasKey('title', $this->responseContent);
 		$this->assertSame($this->responseContent['title'], $this->validPayload['title']);
-		$this->assertCount(count($this->validPayload['tags']), $this->responseContent['tags']);
+		$this->assertSame(count($this->validPayload['tags']), count($this->responseContent['tags']));
 	}
 
 	public function test_update_with_an_invalid_payload_duplicate_title(): void

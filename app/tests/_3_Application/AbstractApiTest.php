@@ -13,13 +13,13 @@ use Symfony\Component\HttpClient\Exception\ServerException;
 abstract class AbstractApiTest extends ApiTestCase
 {
 	protected string $iri;
-	protected array $validPayload;
-	protected array $invalidPayload;
+	protected array $validPayload; // @phpstan-ignore-line
+	protected array $invalidPayload; // @phpstan-ignore-line
 	protected Generator $faker;
 	protected Client $client;
-	protected array $responseContent;
+	protected array $responseContent; // @phpstan-ignore-line
 
-	private array $requestOptions;
+	private array $requestOptions; // @phpstan-ignore-line
 
 	/* ********************************************************** *\
 		Common setup
@@ -114,6 +114,7 @@ abstract class AbstractApiTest extends ApiTestCase
 		Generic request
 	\* ********************************************************** */
 
+	// @phpstan-ignore-next-line
 	protected function makeRequest(string $method, ?array $payload = null): void
 	{
 		if ($method === 'POST')

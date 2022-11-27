@@ -33,9 +33,12 @@ class AppFixtures extends Fixture
 		$manager->flush();
 	}
 
+	/**
+	 * @return array<int, Tag>
+	 */
 	private function createTags(): array
 	{
-		$tags = [
+		$tagNames = [
 			0 => 'Décoration',
 			1 => 'Divertissement',
 			2 => 'Eco',
@@ -44,7 +47,8 @@ class AppFixtures extends Fixture
 			5 => 'Urgent'
 		];
 
-		foreach ($tags as $i => $name)
+		/** @var string $name */
+		foreach ($tagNames as $i => $name)
 		{
 			$tags[$i] = new Tag();
 			$tags[$i]->setName($name);
@@ -54,6 +58,10 @@ class AppFixtures extends Fixture
 		return $tags;
 	}
 
+	/**
+	 * @param array<int, Tag> $tags
+	 * @return array<int, Todolist>
+	 */
 	private function createLists(array $tags): array
 	{
 		$lists = [

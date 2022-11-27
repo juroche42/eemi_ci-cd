@@ -41,6 +41,9 @@ class Tag
 	#[Groups(['todolist:read:one', 'task:read', 'task:write'])]
 	private ?string $color = null;
 
+	/**
+	 * @var Collection<int, Task> $tasks
+	 */
 	#[ORM\ManyToMany(targetEntity: Task::class, inversedBy: 'tags')]
 	private Collection $tasks;
 

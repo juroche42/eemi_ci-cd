@@ -12,6 +12,7 @@ final class TaskExpirationFilter extends AbstractFilter
 	/**
 	 * This is the logic that applies the filtering.
 	 */
+	// @phpstan-ignore-next-line
 	protected function filterProperty(
 		string $property,
 		$value,
@@ -26,7 +27,7 @@ final class TaskExpirationFilter extends AbstractFilter
 		{
 			$alias = $queryBuilder->getRootAliases()[0];
 			$queryBuilder
-				->andWhere(sprintf('%s.dueDate < :today', $alias, $alias))
+				->andWhere(sprintf('%s.dueDate < :today', $alias))
 				->setParameter('today', date('Y-m-d'));
 		}
 	}
@@ -34,6 +35,7 @@ final class TaskExpirationFilter extends AbstractFilter
 	/**
 	 * This describes the filter, for the documentation.
 	 */
+	// @phpstan-ignore-next-line
 	public function getDescription(string $resourceClass): array
 	{
 		return [

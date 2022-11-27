@@ -4,26 +4,32 @@ namespace App\Entity;
 
 use DateTime;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
-use App\ApiFilter\TaskExpirationFilter;
+use ApiPlatform\Metadata\Patch;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TaskRepository;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Action\NotFoundAction;
 use ApiPlatform\Metadata\GetCollection;
+use App\ApiFilter\TaskExpirationFilter;
 use Doctrine\Common\Collections\Collection;
+use App\Controller\CreateUpdateTaskController;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use App\Controller\CreateUpdateTaskController;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 #[ApiResource(
 	operations: [
-		new Get(),
+		new Get(
+			controller: NotFoundAction::class,
+			read: false,
+			output: false,
+			openapi: false
+		),
 		new GetCollection(),
 		new Post(
 			controller: CreateUpdateTaskController::class
@@ -69,6 +75,9 @@ class Task
 	#[Groups(['task:write'])]
 	private ?Todolist $todolist = null;
 
+	/**
+	 * @var Collection<int, Tag> $tags
+	 */
 	#[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'tasks', cascade: ["all"])]
 	#[Groups(['todolist:read:one', 'task:read', 'task:write'])]
 	private Collection $tags;

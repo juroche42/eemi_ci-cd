@@ -14,20 +14,9 @@ class ReadTaskTest extends AbstractApiTest
 		$this->iri = '/api/tasks';
 	}
 
-	public function test_read_one_without_authentication(): void
+	public function test_read_all_without_authentication(): void
 	{
-		$this->iri .= '/1';
 		parent::test_endpoint_without_authentication('GET');
-	}
-
-	public function test_read_one_with_a_valid_id(): void
-	{
-		parent::test_read_one_with_a_valid_id();
-	}
-
-	public function test_read_one_with_an_invalid_id(): void
-	{
-		parent::test_read_one_with_an_invalid_id();
 	}
 
 	public function test_read_all_with_a_valid_id_and_valid_tag_id_filter(): void
@@ -67,7 +56,7 @@ class ReadTaskTest extends AbstractApiTest
 
 		$today = (new DateTime())->format('Y-m-d');
 
-		/** @var array $task */
+		/** @var array<string> $task */
 		foreach ($this->responseContent as $task)
 		{
 			$this->assertArrayHasKey('dueDate', $task);
@@ -86,7 +75,7 @@ class ReadTaskTest extends AbstractApiTest
 		$this->assertResponseStatusCodeSame(200);
 		$this->assertNotEmpty($this->responseContent);
 
-		/** @var array[] $task */
+		/** @var array<array<int|string>> $task */
 		foreach ($this->responseContent as $task)
 		{
 			$this->assertNotEmpty($task['tags']);

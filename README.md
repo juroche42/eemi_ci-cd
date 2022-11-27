@@ -4,7 +4,7 @@
 
 - [Installation locale](https://github.com/cbrichau/todolist-symfony6/wiki/Installation-locale)
 - [Wiki](https://github.com/cbrichau/todolist-symfony6/wiki)
-- Exposition de l'API: http://localhost:8080/api/docs (login = email@email.com' ; mdp = password)
+- Exposition de l'API: http://localhost:8080/api/docs (login = email@email.com ; mdp = password)
 - Exposition de la BDD: http://localhost:8081/
 
 ## Cahier des charges
@@ -17,7 +17,7 @@
    - [x] Modifier une Task et ses Tags.
    - [x] Lire toutes les Tasks associées à un Tag donné (ou plusieurs).
    - [x] Lire toutes les Tasks expirées.
-- [ ] **Protection de l'API avec l'authentification HTTP Basic.**
+- [x] **Protection de l'API avec l'authentification HTTP Basic.**
 - [x] **Garantie de la qualité du code et d'une maintenance aisée :**
    - [x] Utilisation de docker-compose pour disposer d'un environnement local bien défini (containers = NGINX, PHP, MySQL, phpMyAdmin).
    - [x] Utilisation d'un framework ([Symfony](https://symfony.com/doc/6.0/index.html)) et d'un bundle REST API ([API Platform](https://api-platform.com/)) pour bénéficier d'une base robuste, réduire le temps de développement, et simplifier le travail collaboratif.

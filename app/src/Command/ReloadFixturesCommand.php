@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Exception;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -22,7 +23,10 @@ class ReloadFixturesCommand extends Command
 	{
 		$sstyle = new SymfonyStyle($input, $output);
 
-		$this->app = $this->getApplication();
+		if (($app = $this->getApplication()) === null)
+			throw new Exception('getApplication failed');
+
+		$this->app = $app;
 		$this->app->setAutoExit(false);
 
 		$sstyle->title('Dropping the database');
@@ -42,6 +46,9 @@ class ReloadFixturesCommand extends Command
 		return Command::SUCCESS;
 	}
 
+	/**
+	 * @param array<string|true> $flags
+	 */
 	private function exec(string $command, array $flags = []): void
 	{
 		$this->app->run(new ArrayInput(['command' => $command, ...$flags]));
