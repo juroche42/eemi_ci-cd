@@ -34,11 +34,11 @@ class Tag
 	#[ORM\Column(length: 255, unique: true)]
 	#[Assert\NotBlank]
 	#[Assert\Length(max: 255)]
-	#[Groups(['todolist:read:one', 'task:read'])]
+	#[Groups(['todolist:read:one', 'task:read', 'task:create'])]
 	private ?string $name = null;
 
 	#[ORM\Column(length: 255)]
-	#[Groups(['todolist:read:one', 'task:read'])]
+	#[Groups(['todolist:read:one', 'task:read', 'task:create'])]
 	private ?string $color = null;
 
 	#[ORM\ManyToMany(targetEntity: Task::class, inversedBy: 'tags')]

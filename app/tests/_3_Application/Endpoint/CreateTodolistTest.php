@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Tests\_3_Application\Endpoint;
+namespace App\Tests\_3_Application;
 
-use App\Tests\_3_Application\Endpoint\AbstractEndpointTest;
+use App\Tests\_3_Application\AbstractApiTest;
+use Symfony\Component\HttpClient\Exception\ClientException;
 
-class CreateTodolistTest extends AbstractEndpointTest
+class CreateTodolistTest extends AbstractApiTest
 {
 	public function setUp(): void
 	{
@@ -29,6 +30,8 @@ class CreateTodolistTest extends AbstractEndpointTest
 
 	public function test_create_with_an_invalid_payload(): void
 	{
+		$this->expectException(ClientException::class);
+
 		parent::test_create_with_an_invalid_payload();
 	}
 }

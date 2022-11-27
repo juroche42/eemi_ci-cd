@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\_3_Application\Endpoint;
+namespace App\Tests\_3_Application;
 
-use App\Tests\_3_Application\Endpoint\AbstractEndpointTest;
+use App\Tests\_3_Application\AbstractApiTest;
 
-class ReadTodolistTest extends AbstractEndpointTest
+class ReadTodolistTest extends AbstractApiTest
 {
 	public function setUp(): void
 	{

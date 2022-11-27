@@ -13,7 +13,7 @@
 - [ ] **Création de 6 endpoints pour :**
    - [x] Lire une Todolist avec ses Tasks et leurs Tags.
    - [x] Créer une Todolist (sans ses associations car celles-ci seront gérées à la création d'une Task).
-   - [ ] Créer une Task et ses Tags.
+   - [x] Créer une Task et ses Tags.
    - [ ] Modifier une Task et ses Tags.
    - [x] Lire toutes les Tasks associées à un Tag donné (ou plusieurs).
    - [x] Lire toutes les Tasks expirées.

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests\_3_Application\Endpoint;
+namespace App\Tests\_3_Application;
 
 use DateTime;
-use App\Tests\_3_Application\Endpoint\AbstractEndpointTest;
+use App\Tests\_3_Application\AbstractApiTest;
 
-class ReadTaskTest extends AbstractEndpointTest
+class ReadTaskTest extends AbstractApiTest
 {
 	public function setUp(): void
 	{

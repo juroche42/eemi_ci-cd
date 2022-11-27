@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\_3_Application\Endpoint;
+namespace App\Tests\_3_Application;
 
 use Exception;
 use Faker\Factory;
@@ -9,7 +9,7 @@ use ApiPlatform\Symfony\Bundle\Test\Client;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use Symfony\Component\HttpClient\Exception\ClientException;
 
-abstract class AbstractEndpointTest extends ApiTestCase
+abstract class AbstractApiTest extends ApiTestCase
 {
 	protected Generator $faker;
 	protected string $iri;
@@ -46,7 +46,6 @@ abstract class AbstractEndpointTest extends ApiTestCase
 
 	protected function test_create_with_an_invalid_payload(): void
 	{
-		$this->expectException(ClientException::class);
 		$this->makeRequest('POST', $this->invalidPayload);
 
 		$this->assertResponseStatusCodeSame(400);
