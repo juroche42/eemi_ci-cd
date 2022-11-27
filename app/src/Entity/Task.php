@@ -5,7 +5,7 @@ namespace App\Entity;
 use DateTime;
 use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
-use App\Filter\TaskExpirationFilter;
+use App\ApiFilter\TaskExpirationFilter;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TaskRepository;
 use ApiPlatform\Metadata\ApiFilter;
