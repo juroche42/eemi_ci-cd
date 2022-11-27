@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,29 +29,38 @@ class ReloadFixturesCommand extends Command
 		$env = $input->getArgument('env');
 
 		$sstyle->title('Initialisation');
+
+		/** @var Application $application */
 		$application = $this->getApplication();
 		$application->setAutoExit(false);
 
 		$sstyle->title('Dropping the database');
+
 		$application->run(new ArrayInput([
 			'command' => 'doctrine:database:drop',
 			"--env" => $env,
+			"--if-exists" => true,
 			"--force" => true
 		]));
 
 		$sstyle->title('Recreating the database');
+
 		$application->run(new ArrayInput([
 			'command' => 'doctrine:database:create',
 			"--env" => $env,
 			"--if-not-exists" => true
 		]));
 		$application->run(new ArrayInput([
-			'command' => 'doctrine:schema:update',
+			'command' => 'doctrine:migrations:sync-metadata-storage',
+			"--env" => $env
+		]));
+		$application->run(new ArrayInput([
+			'command' => 'doctrine:migrations:migrate',
 			"--env" => $env,
-			"--force" => true
 		]));
 
 		$sstyle->title('Loading the fixtures');
+
 		$application->run(new ArrayInput([
 			'command' => 'doctrine:fixtures:load',
 			"--env" => $env,
