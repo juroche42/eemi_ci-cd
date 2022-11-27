@@ -20,6 +20,11 @@ class CreateTodolistTest extends AbstractApiTest
 		];
 	}
 
+	public function test_create_without_authentication(): void
+	{
+		parent::test_endpoint_without_authentication('POST');
+	}
+
 	public function test_create_with_a_valid_payload(): void
 	{
 		parent::test_create_with_a_valid_payload();

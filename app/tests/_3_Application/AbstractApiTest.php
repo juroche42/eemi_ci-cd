@@ -12,12 +12,14 @@ use Symfony\Component\HttpClient\Exception\ServerException;
 
 abstract class AbstractApiTest extends ApiTestCase
 {
-	protected Generator $faker;
 	protected string $iri;
 	protected array $validPayload;
 	protected array $invalidPayload;
+	protected Generator $faker;
 	protected Client $client;
 	protected array $responseContent;
+
+	private array $requestOptions;
 
 	/* ********************************************************** *\
 		Common setup
@@ -29,11 +31,25 @@ abstract class AbstractApiTest extends ApiTestCase
 
 		$this->client = static::createClient();
 		$this->faker = Factory::create();
+		$this->requestOptions['headers']['Authorization'] = 'Basic ' . base64_encode($_ENV['AUTH_USER_EMAIL'] . ':' . $_ENV['AUTH_USER_PASS']);
+		$this->requestOptions['headers']['accept'] = 'application/json';
 	}
 
 	/* ********************************************************** *\
 		Common tests
 	\* ********************************************************** */
+
+	// --------- Unauthenticated access ---------
+
+	protected function test_endpoint_without_authentication(string $method): void
+	{
+		unset($this->requestOptions['headers']['Authorization']);
+
+		$this->expectException(ClientException::class);
+		$this->makeRequest($method);
+
+		$this->assertResponseStatusCodeSame(401);
+	}
 
 	// --------- Create ---------
 
@@ -100,17 +116,15 @@ abstract class AbstractApiTest extends ApiTestCase
 
 	protected function makeRequest(string $method, ?array $payload = null): void
 	{
-		$options['headers']['accept'] = 'application/json';
-
 		if ($method === 'POST')
-			$options['headers']['content-type'] = 'application/json';
+			$this->requestOptions['headers']['content-type'] = 'application/json';
 		elseif ($method === 'PATCH')
-			$options['headers']['content-type'] = 'application/merge-patch+json';
+			$this->requestOptions['headers']['content-type'] = 'application/merge-patch+json';
 
 		if ($payload !== null)
-			$options['json'] = $payload;
+			$this->requestOptions['json'] = $payload;
 
-		$clientResponse = $this->client->request($method, $this->iri, $options);
+		$clientResponse = $this->client->request($method, $this->iri, $this->requestOptions);
 		if (!is_array($responseArray = json_decode($clientResponse->getContent(), true)))
 			throw new Exception('json_decode failed.');
 		$this->responseContent = $responseArray;

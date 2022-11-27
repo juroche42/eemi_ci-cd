@@ -28,6 +28,11 @@ class UpdateTaskControllerTest extends AbstractApiTest
 		];
 	}
 
+	public function test_update_without_authentication(): void
+	{
+		parent::test_endpoint_without_authentication('PATCH');
+	}
+
 	public function test_update_with_a_valid_payload(): void
 	{
 		parent::test_update_with_a_valid_payload();

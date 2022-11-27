@@ -10,8 +10,11 @@ api_platform:
 
   swagger:
     versions: [3]
-    # swagger_ui_extra_configuration:
-      # defaultModelsExpandDepth: -1
+    api_keys:
+      httpBasicAuth:
+        name: Authorization
+        type: header
+
   formats:
     json: ["application/json"]
     html: ['text/html']

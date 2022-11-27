@@ -4,7 +4,7 @@
 
 - [Installation locale](https://github.com/cbrichau/todolist-symfony6/wiki/Installation-locale)
 - [Wiki](https://github.com/cbrichau/todolist-symfony6/wiki)
-- Exposition de l'API: http://localhost:8080/api/docs
+- Exposition de l'API: http://localhost:8080/api/docs (login = email@email.com' ; mdp = password)
 - Exposition de la BDD: http://localhost:8081/
 
 ## Cahier des charges
