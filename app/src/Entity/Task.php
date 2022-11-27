@@ -6,7 +6,6 @@ use DateTime;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Patch;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TaskRepository;
 use ApiPlatform\Metadata\ApiFilter;
@@ -15,9 +14,11 @@ use ApiPlatform\Action\NotFoundAction;
 use ApiPlatform\Metadata\GetCollection;
 use App\ApiFilter\TaskExpirationFilter;
 use Doctrine\Common\Collections\Collection;
-use App\Controller\CreateUpdateTaskController;
+use App\Controller\CreateTaskController;
+use App\Controller\UpdateTaskController;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Put;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,10 +33,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 		),
 		new GetCollection(),
 		new Post(
-			controller: CreateUpdateTaskController::class
+			controller: CreateTaskController::class
 		),
-		new Patch(
-			controller: CreateUpdateTaskController::class,
+		new Put(
+			controller: UpdateTaskController::class,
 		),
 	],
 	normalizationContext: ['groups' => ['task:read']],

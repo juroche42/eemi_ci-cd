@@ -19,9 +19,6 @@ api_platform:
     json: ["application/json"]
     html: ['text/html']
 
-  patch_formats:
-    json: ["application/merge-patch+json"]
-
   defaults:
     pagination_enabled: false
     iri: 'http://localhost:8080'

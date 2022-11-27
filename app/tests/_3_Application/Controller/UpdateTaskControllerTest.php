@@ -30,7 +30,7 @@ class UpdateTaskControllerTest extends AbstractApiTest
 
 	public function test_update_without_authentication(): void
 	{
-		parent::test_endpoint_without_authentication('PATCH');
+		parent::test_endpoint_without_authentication('PUT');
 	}
 
 	public function test_update_with_a_valid_payload(): void
@@ -40,13 +40,5 @@ class UpdateTaskControllerTest extends AbstractApiTest
 		$this->assertArrayHasKey('title', $this->responseContent);
 		$this->assertSame($this->responseContent['title'], $this->validPayload['title']);
 		$this->assertSame(count($this->validPayload['tags']), count($this->responseContent['tags']));
-	}
-
-	public function test_update_with_an_invalid_payload_duplicate_title(): void
-	{
-		$this->invalidPayload = $this->validPayload;
-		$this->invalidPayload['title'] = 'Acheter un vase pour les poireaux';
-
-		parent::test_update_with_an_invalid_payload();
 	}
 }

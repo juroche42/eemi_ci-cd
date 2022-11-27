@@ -95,7 +95,7 @@ abstract class AbstractApiTest extends ApiTestCase
 
 	protected function test_update_with_a_valid_payload(): void
 	{
-		$this->makeRequest('PATCH', $this->validPayload);
+		$this->makeRequest('PUT', $this->validPayload);
 
 		$this->assertResponseStatusCodeSame(200);
 		$this->assertArrayHasKey('id', $this->responseContent);
@@ -105,7 +105,7 @@ abstract class AbstractApiTest extends ApiTestCase
 	{
 		$this->expectException(ServerException::class);
 
-		$this->makeRequest('PATCH', $this->invalidPayload);
+		$this->makeRequest('PUT', $this->invalidPayload);
 
 		$this->assertResponseStatusCodeSame(400);
 	}
@@ -117,10 +117,8 @@ abstract class AbstractApiTest extends ApiTestCase
 	// @phpstan-ignore-next-line
 	protected function makeRequest(string $method, ?array $payload = null): void
 	{
-		if ($method === 'POST')
+		if (in_array($method, ['POST', 'PUT']))
 			$this->requestOptions['headers']['content-type'] = 'application/json';
-		elseif ($method === 'PATCH')
-			$this->requestOptions['headers']['content-type'] = 'application/merge-patch+json';
 
 		if ($payload !== null)
 			$this->requestOptions['json'] = $payload;

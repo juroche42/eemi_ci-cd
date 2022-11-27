@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[AsController]
-class CreateUpdateTaskController extends AbstractController
+class CreateTaskController extends AbstractController
 {
 	private TaskRepository $taskRepository;
 	private EntityManagerInterface $entityManager;

@@ -28,7 +28,7 @@ class Tag
 	#[ORM\Id]
 	#[ORM\GeneratedValue]
 	#[ORM\Column]
-	#[Groups(['todolist:read:one', 'task:read'])]
+	#[Groups(['todolist:read:one', 'task:read', 'task:write'])]
 	private ?int $id = null;
 
 	#[ORM\Column(length: 255, unique: true)]
