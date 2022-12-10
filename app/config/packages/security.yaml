@@ -15,6 +15,7 @@ security:
       security: false
     main:
       lazy: true
+      stateless: true
       provider: app_user_provider
       http_basic:
         realm: Secured Area
