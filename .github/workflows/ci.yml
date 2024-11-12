@@ -21,3 +21,9 @@ jobs:
       continue-on-error: true
     - name: "List directory"
       run: ls
+
+  hello2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Coucou"
+      run: echo "coucou"
