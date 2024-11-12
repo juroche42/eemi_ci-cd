@@ -27,3 +27,10 @@ jobs:
     steps:
     - name: "Coucou"
       run: echo "coucou"
+
+  hello3:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Prerequites"
+      run: echo "Hello1 & Hello2 ont fini"
+    needs: [hello, hello2]
