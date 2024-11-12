@@ -10,14 +10,14 @@ jobs:
   hello:
     runs-on: "ubuntu-latest"
     steps:
-    - name : "Hello world"
-      run : echo "Hello, world!"
+    - name: "Hello world"
+      run: echo "Hello, world!"
     - name: "Multiple Lines"
       run: |
           echo "This is the first line"
           echo "This is the second line"
           exit 1
           echo "This is the third line"
-        continue-on-error: true
+        con
     - name: "List directory"
       run: ls
