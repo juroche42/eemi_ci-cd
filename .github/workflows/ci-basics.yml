@@ -1,0 +1,36 @@
+name: "CI-basics"
+
+on:
+  push:
+    paths:
+      - "ci-basics.yml"
+  workflow_dispatch: ~
+
+jobs:
+  hello:
+    runs-on: "ubuntu-latest"
+    steps:
+    - name: "Hello world"
+      run: 'echo "Hello, world!"'
+    - name: "Multiple Lines"
+      run: |
+          echo "This is the first line"
+          echo "This is the second line"
+          exit 1
+          echo "This is the third line"
+      continue-on-error: true
+    - name: "List directory"
+      run: ls
+
+  hello2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Coucou"
+      run: echo "coucou"
+
+  hello3:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Prerequites"
+      run: echo "Hello1 & Hello2 ont fini"
+    needs: [hello, hello2]
