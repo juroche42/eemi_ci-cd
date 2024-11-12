@@ -5,7 +5,7 @@ on:
     paths-ignore:
       - "./ci.yml"
   workflow_dispatch: ~
-
+# faire un job qui install les dépendances et build le projet
 jobs:
   deps:
     name: "Install depedencies"
@@ -14,3 +14,12 @@ jobs:
       - name: "Checkout repository"
         uses: actions/checkout@v4
       - run : ls
+      - name: "Setup PHP 8.1"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          tools: "composer:v2"
+      - name: "Install composer dependencies"
+        run: |
+          export APP_ENV=test
+          composer install --prefer-dist --no-progress --no-suggest
