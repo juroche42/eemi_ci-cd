@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflows_dispatch: ~
 
 jobs:
   hello:
@@ -15,6 +16,8 @@ jobs:
       run: |
           echo "This is the first line"
           echo "This is the second line"
+          exit 1
           echo "This is the third line"
+        continue-on-error: true
     - name: "List directory"
       run: ls
