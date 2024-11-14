@@ -40,6 +40,6 @@ jobs:
           cd app
           php bin/console doctrine:migrations:migrate
         env:
-          DATABASE_URL: localhost
+          DATABASE_URL: 127.0.0.1
           DATABASE_NAME: app
           DATABASE_PASSWORD: password
