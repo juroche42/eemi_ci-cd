@@ -26,7 +26,7 @@ jobs:
           php-version: "8.1"
           tools: "composer:v2"
       - name: "Check database healthy"
-        run: nc -z database 3306
+        run: nc -z localhost 3306
       - name: "Install composer dependencies"
         run: |
           export APP_ENV=test
