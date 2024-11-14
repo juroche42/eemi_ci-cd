@@ -38,6 +38,7 @@ jobs:
       - name: "Run migrations"
         run: |
           cd app
+          env | grep DATABASE
           php bin/console d:m:m
         env:
           DATABASE_HOST: 127.0.0.1
