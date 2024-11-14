@@ -43,3 +43,8 @@ jobs:
           DATABASE_HOST: 127.0.0.1
           DATABASE_NAME: app
           DATABASE_PASSWORD: password
+      - name: "Start server"
+        run: |
+          cd app
+          php bin/console
+          php -S 127.0.0.1
