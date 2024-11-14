@@ -34,3 +34,6 @@ jobs:
           export APP_ENV=test
           cd app
           composer install --prefer-dist --no-progress --no-suggest
+      - name: "Run migrations"
+        run: |
+          php bin/console doctrine:migrations:migrate --no-interaction
