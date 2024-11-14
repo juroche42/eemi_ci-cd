@@ -5,7 +5,7 @@ on:
     paths-ignore:
       - "./ci.yml"
   workflow_dispatch: ~
-# faire un job qui install les dépendances et build le projet
+
 jobs:
   deps:
     name: "Install depedencies"
@@ -20,25 +20,23 @@ jobs:
         ports:
           - 3306:3306
     steps:
-      - name: "Checkout repository"
+      - name: "Checkout Repository"
         uses: actions/checkout@v4
-      - run : ls
-      - name: "Setup PHP 8.1"
-        uses: shivammathur/setup-php@v2
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@2.31.1
         with:
-          php-version: "8.1"
-          tools: "composer:v2"
+          php-version: 8.1
+          tools: composer
       - name: "Check database healthy"
-        run: nc -z localhost 3306
-      - name: "Install composer dependencies"
+        run: nc -zv localhost 3306
+      - name: "Install composer deps"
         run: |
           export APP_ENV=test
           cd app
-          composer install --prefer-dist --no-progress --no-suggest
+          composer install --prefer-dist --no-interaction --no-progress
       - name: "Run migrations"
         run: |
           cd app
-          env | grep DATABASE
           php bin/console d:m:m
         env:
           DATABASE_HOST: 127.0.0.1
@@ -48,4 +46,6 @@ jobs:
         run: |
           cd app
           php bin/console
-          php -S 127.0.0.1:8000 -t public
+          php -S 127.0.0.1:8080 -t public &
+          sleep 2
+          nc -zv localhost 8080
