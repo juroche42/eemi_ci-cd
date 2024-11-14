@@ -22,14 +22,12 @@ jobs:
         run: |
           cd app
           composer install --prefer-dist --no-interaction --no-progress
-      - name: "Run PHP_CodeSniffer"
-        run: |
-          cd app
-          vendor/bin/phpcs --standard=PSR12 src/
-      - name: "Run PHPStan"
-        run: |
-          cd app
-          vendor/bin/phpstan analyse src/ --level=max
+      - name: "PHP Code Sniffer"
+        uses: php-actions/phpcs@v1
+        with:
+          php_version: 8.1
+          path: src/
+          standard: phpcs.xml
   deps:
     name: "Install depedencies"
     runs-on: "ubuntu-latest"
