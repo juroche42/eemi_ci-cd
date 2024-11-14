@@ -22,4 +22,5 @@ jobs:
       - name: "Install composer dependencies"
         run: |
           export APP_ENV=test
+          cd app
           composer install --prefer-dist --no-progress --no-suggest
