@@ -37,8 +37,7 @@ jobs:
           composer install --prefer-dist --no-progress --no-suggest
       - name: "Run migrations"
         run: |
-          pwd
-          ls
+          cd app
           php bin/console doctrine:migrations:migrate
         env:
           DATABASE_URL: localhost
