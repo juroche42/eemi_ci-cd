@@ -19,6 +19,7 @@ jobs:
       - name: Composer install
         uses: php-actions/composer@v6
         with:
+          working_dir: app
           php_version: 8.1
       - name: "Generate cs config"
         run: cp phpcs.xml.dist phpcs.xml
@@ -26,13 +27,13 @@ jobs:
         uses: php-actions/phpcs@v1
         with:
           php_version: 8.1
-          path: src/
+          path: app/src/
           standard: phpcs.xml
       - name: "PHPStan"
         uses: php-actions/phpstan@v3
         continue-on-error: true
         with:
-          path: src/
+          path: app/src/
           php_version: 8.1
           level: 9
 
