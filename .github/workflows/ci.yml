@@ -25,7 +25,7 @@ jobs:
         uses: php-actions/phpstan@v3
         continue-on-error: true
         with:
-          path: src/
+          path: app/src/
           php_version: 8.1
           level: 9
 
@@ -55,9 +55,11 @@ jobs:
       - name: "Install composer deps"
         run: |
           export APP_ENV=test
+          cd app
           composer install --prefer-dist --no-interaction --no-progress
       - name: "Run migrations"
         run: |
+          cd app
           php bin/console d:m:m
         env:
           DATABASE_HOST: 127.0.0.1
@@ -65,6 +67,7 @@ jobs:
           DATABASE_PASSWORD: password
       - name: "Start server"
         run: |
+          cd app
           php bin/console
           php -S 127.0.0.1:8080 -t public &
           sleep 2
