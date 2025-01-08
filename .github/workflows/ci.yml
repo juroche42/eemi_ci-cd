@@ -12,15 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Composer install
-        run: |
-          ls
+        uses: php-actions/composer@v6
+        with:
+          command: 'cd app'
       - name: "Generate cs config"
         run: cp phpcs.xml.dist phpcs.xml
       - name: PHP Code Sniffer
         uses: php-actions/phpcs@v1
         with:
           php_version: 8.1
-          path: app
+          path: app/src/
           standard: phpcs.xml
       - name: "PHPStan"
         uses: php-actions/phpstan@v3
